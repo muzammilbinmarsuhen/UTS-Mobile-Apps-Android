@@ -1,9 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, {useRef} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Animated,
+  Easing,
+} from 'react-native';
 
-const Akun = ({ namaPengguna, email, fotoProfil }) => {
+const Akun = ({namaPengguna, email, fotoProfil}) => {
+  const animatedValue = useRef(new Animated.Value(0)).current;
+
+  const startAnimation = () => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 500,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const translateX = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [200, 0],
+  });
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
         {fotoProfil && <Image source={fotoProfil} style={styles.fotoProfil} />}
         <Text style={styles.username}>{namaPengguna}</Text>
@@ -12,13 +37,48 @@ const Akun = ({ namaPengguna, email, fotoProfil }) => {
         <Text style={styles.label}>Email:</Text>
         <Text style={styles.textInfo}>{email}</Text>
       </View>
-    </View>
+      <TouchableOpacity onPress={startAnimation} style={styles.table}>
+        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
+          <Text style={styles.tableText}>Alamat</Text>
+        </Animated.View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={startAnimation} style={styles.table}>
+        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
+          <Text style={styles.tableText}>Pembayaran</Text>
+        </Animated.View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={startAnimation} style={styles.table}>
+        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
+          <Text style={styles.tableText}>Pusat Bantuan</Text>
+        </Animated.View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={startAnimation} style={styles.table}>
+        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
+          <Text style={styles.tableText}>Pengaturan</Text>
+        </Animated.View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={startAnimation} style={styles.table}>
+        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
+          <Text style={styles.tableText}>Panduan</Text>
+        </Animated.View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={startAnimation} style={styles.table}>
+        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
+          <Text style={styles.tableText}>Kebijakan Privasi</Text>
+        </Animated.View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={startAnimation} style={styles.table}>
+        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
+          <Text style={styles.tableText}>Media Sosial</Text>
+        </Animated.View>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f0f2f5', // Warna latar biru muda ala Facebook
+    backgroundColor: '#fff',
     paddingVertical: 20,
     paddingHorizontal: 15,
   },
@@ -36,9 +96,11 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#1877f2', // Warna biru Facebook
+    color: '#1877f2',
   },
-  info: {},
+  info: {
+    marginBottom: 15,
+  },
   label: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -46,6 +108,19 @@ const styles = StyleSheet.create({
   },
   textInfo: {
     fontSize: 16,
+  },
+  table: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  tableItem: {
+    paddingVertical: 15,
+    paddingLeft: 10,
+    backgroundColor: '#f7f7f7',
+  },
+  tableText: {
+    fontSize: 20,
+    color: '#333',
   },
 });
 
