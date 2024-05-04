@@ -19,9 +19,9 @@ const Home = ({navigation}) => {
         horizontal={true}
       />
       <TouchableOpacity
-        onPress={() => navigation.navigate('About')}
+        onPress={() => navigation.navigate('Pesan')}
         style={styles.btn}>
-        <Text style={styles.txt}>Ke About</Text>
+        <Text style={styles.txt}>selamat datang di cafe</Text>
       </TouchableOpacity>
     </View>
   );
@@ -32,7 +32,7 @@ export default Home;
 const styles = StyleSheet.create({
   btn: {
     margin: 10,
-    padding: 10,
+    padding: 17,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,

@@ -13,7 +13,7 @@ const Tabs = createBottomTabNavigator();
 
 const MenuTab = () => {
   return (
-    <Tabs.Navigator screenOptions={{tabBarActiveTintColor: 'green'}}>
+    <Tabs.Navigator screenOptions={{tabBarActiveTintColor: 'yellow'}}>
       <Tabs.Screen
         name="Home"
         component={Home}
@@ -65,4 +65,4 @@ function App() {
 
 export default App;
 
-const style = StyleSheet.create({});
+const styles = StyleSheet.create({});

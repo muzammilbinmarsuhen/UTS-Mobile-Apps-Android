@@ -7,7 +7,7 @@ const IconMenu = ({label}) => {
       <View style={styles.box}>
         <Text style={styles.textIcon}>icon</Text>
       </View>
-      <Text>{label}</Text>
+      <Text style={styles.textIcon}>{label}</Text>
     </TouchableOpacity>
   );
 };
@@ -30,5 +30,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+  },
+  textIcon: {
+    color: 'black',
   },
 });
