@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,22 +7,73 @@ import {
   TouchableOpacity,
   ImageBackground,
   Animated,
+  Image, // Import Image component
 } from 'react-native';
 
 const Data = [
-  { id: 1, label: 'copi susu', price: 'Rp. 3000' },
-  { id: 2, label: 'copi manis', price: 'Rp. 4000' },
-  { id: 3, label: 'jas jus', price: 'Rp. 1000' },
-  { id: 4, label: 'teh manis', price: 'Rp. 3000' },
-  { id: 5, label: 'es jeruk', price: 'Rp. 5000' },
-  { id: 6, label: 'joshua', price: 'Rp. 7000' },
-  { id: 7, label: 'drink', price: 'Rp. 6000' },
-  { id: 8, label: 'boba', price: 'Rp. 8000' },
-  { id: 9, label: 'capucinho', price: 'Rp. 7000' },
-  { id: 10, label: 'copi', price: 'Rp. 2000' },
+  {
+    id: 1,
+    label: 'copi susu',
+    price: 'Rp. 3000',
+    image: require('../assets/copi_susu.jpeg'),
+  },
+  {
+    id: 2,
+    label: 'copi manis',
+    price: 'Rp. 4000',
+    image: require('../assets/copi_manis.jpeg'),
+  },
+  {
+    id: 3,
+    label: 'jas jus',
+    price: 'Rp. 1000',
+    image: require('../assets/jas_jus.jpeg'),
+  },
+  {
+    id: 4,
+    label: 'teh manis',
+    price: 'Rp. 3000',
+    image: require('../assets/teh_manis.jpeg'),
+  },
+  {
+    id: 5,
+    label: 'es jeruk',
+    price: 'Rp. 5000',
+    image: require('../assets/es_jeruk.jpeg'),
+  },
+  {
+    id: 6,
+    label: 'joshua',
+    price: 'Rp. 7000',
+    image: require('../assets/joshua.jpeg'),
+  },
+  {
+    id: 7,
+    label: 'drink',
+    price: 'Rp. 6000',
+    image: require('../assets/drink.jpeg'),
+  },
+  {
+    id: 8,
+    label: 'boba',
+    price: 'Rp. 8000',
+    image: require('../assets/boba.jpeg'),
+  },
+  {
+    id: 9,
+    label: 'capucinho',
+    price: 'Rp. 7000',
+    image: require('../assets/capucinho.jpeg'),
+  },
+  {
+    id: 10,
+    label: 'copi',
+    price: 'Rp. 2000',
+    image: require('../assets/copi.jpeg'),
+  },
 ];
 
-const Home = ({ navigation }) => {
+const Home = ({navigation}) => {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const checkoutScale = new Animated.Value(1);
@@ -46,35 +97,31 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground
-      source={require('../assets/br (1).jpeg')}
-      style={styles.background}>
-      <View style={styles.container}>
-        <View style={styles.menuContainer}>
-          {Data.map(item => (
-            <TouchableOpacity
-              key={item.id}
-              style={[
-                styles.menuItem,
-                { backgroundColor: '#3E2723' },
-                isCheckingOut && { transform: [{ scale: checkoutScale }] },
-              ]}
-              onPress={() => {
-                navigation.navigate('Detail', { item });
-              }}>
-              <Text style={styles.menuText}>{item.label}</Text>
-              <Text style={styles.menuPrice}>{item.price}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <TouchableOpacity
-          onPress={checkoutAnimation}
-          style={styles.btn}
-          disabled={isCheckingOut}>
-          <Text style={styles.txt}>Pesan Sekarang</Text>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.menuContainer}>
+        {Data.map(item => (
+          <TouchableOpacity
+            key={item.id}
+            style={[
+              styles.menuItem,
+              {backgroundColor: '#3E2723'},
+              isCheckingOut && {transform: [{scale: checkoutScale}]},
+            ]}
+            onPress={() => {
+              navigation.navigate('Detail', {item});
+            }}>
+            <Text style={styles.menuText}>{item.label}</Text>
+            <Text style={styles.menuPrice}>{item.price}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
-    </ImageBackground>
+      <TouchableOpacity
+        onPress={checkoutAnimation}
+        style={styles.btn}
+        disabled={isCheckingOut}>
+        <Text style={styles.txt}>Pesan Sekarang</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -115,6 +162,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  menuImage: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+    borderRadius: 50,
   },
   menuText: {
     fontSize: 16,

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,7 +10,7 @@ import {
   Easing,
 } from 'react-native';
 
-const Akun = ({ namaPengguna, email, fotoProfil }) => {
+const Akun = ({namaPengguna, email, fotoProfil}) => {
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
@@ -18,7 +18,7 @@ const Akun = ({ namaPengguna, email, fotoProfil }) => {
     Animated.timing(animatedValue, {
       toValue: 1,
       duration: 1000,
-      easing: Easing.ease,
+      easing: Easing.out(Easing.exp),
       useNativeDriver: true,
     }).start();
   }, [animatedValue]);
@@ -33,12 +33,12 @@ const Akun = ({ namaPengguna, email, fotoProfil }) => {
   });
 
   return (
-    <Animated.ScrollView style={[styles.container, { opacity: animatedValue }]}>
+    <Animated.ScrollView style={[styles.container, {opacity: animatedValue}]}>
       <View style={styles.header}>
         {fotoProfil ? (
           <Image source={fotoProfil} style={styles.fotoProfil} />
         ) : (
-          <View style={styles.placeholder}></View>
+          <View style={styles.placeholder} />
         )}
         <View style={styles.userInfo}>
           <Text style={styles.username}>{namaPengguna}</Text>
@@ -47,22 +47,38 @@ const Akun = ({ namaPengguna, email, fotoProfil }) => {
       </View>
       <View style={styles.menu}>
         <TouchableOpacity onPress={startAnimation} style={styles.menuItem}>
-          <Text style={[styles.menuText, isButtonPressed && styles.menuTextPressed]}>
+          <Text
+            style={[
+              styles.menuText,
+              isButtonPressed && styles.menuTextPressed,
+            ]}>
             Pesanan Saya
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={startAnimation} style={styles.menuItem}>
-          <Text style={[styles.menuText, isButtonPressed && styles.menuTextPressed]}>
+          <Text
+            style={[
+              styles.menuText,
+              isButtonPressed && styles.menuTextPressed,
+            ]}>
             Favorit Saya
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={startAnimation} style={styles.menuItem}>
-          <Text style={[styles.menuText, isButtonPressed && styles.menuTextPressed]}>
+          <Text
+            style={[
+              styles.menuText,
+              isButtonPressed && styles.menuTextPressed,
+            ]}>
             Alamat Pengiriman
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={startAnimation} style={styles.menuItem}>
-          <Text style={[styles.menuText, isButtonPressed && styles.menuTextPressed]}>
+          <Text
+            style={[
+              styles.menuText,
+              isButtonPressed && styles.menuTextPressed,
+            ]}>
             Pengaturan Akun
           </Text>
         </TouchableOpacity>
@@ -92,6 +108,8 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     marginRight: 20,
+    borderWidth: 2,
+    borderColor: '#1877f2', // Warna border gambar
   },
   placeholder: {
     width: 60,
@@ -107,6 +125,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
+    color: '#333', // Warna nama pengguna
   },
   email: {
     fontSize: 14,
