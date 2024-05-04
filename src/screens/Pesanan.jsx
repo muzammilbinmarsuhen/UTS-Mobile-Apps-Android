@@ -1,11 +1,13 @@
-import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, Text, View, FlatList, TextInput} from 'react-native';
 
 const Pesanan = () => {
   const pesananData = [
-    { id: '1', namaMenu: 'Nasi Goreng', harga: 25000, jumlah: 1 },
-    { id: '2', namaMenu: 'Kopi', harga: 10000, jumlah: 2 },
-    { id: '3', namaMenu: 'Pancake', harga: 20000, jumlah: 1 },
+    {id: '1', namaMenu: 'Nasi Goreng', harga: 25000, jumlah: 1},
+    {id: '2', namaMenu: 'Kopi', harga: 10000, jumlah: 2},
+    {id: '3', namaMenu: 'Pancake', harga: 20000, jumlah: 1},
+    {id: '4', namaMenu: 'Soto Ayam', harga: 30000, jumlah: 1},
+    {id: '5', namaMenu: 'Es Teh Manis', harga: 8000, jumlah: 2},
   ];
 
   // Menghitung total harga pesanan
@@ -14,7 +16,17 @@ const Pesanan = () => {
     0,
   );
 
-  const renderItem = ({ item }) => (
+  const [bayar, setBayar] = useState('');
+  const [kembalian, setKembalian] = useState(0);
+
+  useEffect(() => {
+    const bayarInt = parseInt(bayar);
+    if (!isNaN(bayarInt)) {
+      setKembalian(bayarInt - totalHarga);
+    }
+  }, [bayar, totalHarga]);
+
+  const renderItem = ({item}) => (
     <View style={styles.row}>
       <Text style={styles.cell}>{item.namaMenu}</Text>
       <Text style={styles.cell}>{item.harga}</Text>
@@ -40,6 +52,26 @@ const Pesanan = () => {
         <View style={styles.totalContainer}>
           <Text style={styles.totalText}>Total:</Text>
           <Text style={styles.totalHarga}>Rp {totalHarga}</Text>
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={[styles.totalText, {flex: 1}]}>Bayar:</Text>
+          <View style={styles.inputWrapper}>
+            <Text style={styles.inputPrefix}>Rp</Text>
+            <TextInput
+              style={styles.input}
+              value={bayar}
+              onChangeText={setBayar}
+              keyboardType="numeric"
+            />
+          </View>
+        </View>
+        <View style={styles.totalContainer}>
+          <Text style={styles.totalText}>Kembalian:</Text>
+          <Text style={[styles.kembalian, {fontWeight: 'bold'}]}>
+            {kembalian >= 0
+              ? `Rp ${kembalian}`
+              : 'Mohon masukkan jumlah bayar yang cukup'}
+          </Text>
         </View>
         <Text style={styles.terimakasih}>Terima kasih telah memesan!</Text>
       </View>
@@ -83,18 +115,44 @@ const styles = StyleSheet.create({
   },
   totalContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     marginTop: 10,
   },
   totalText: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginRight: 10,
     color: '#4e3629', // Warna teks yang lebih gelap
   },
   totalHarga: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#4e3629', // Warna teks yang lebih gelap
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    justifyContent: 'space-between', // Menambah properti justifyContent
+  },
+  inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+    marginLeft: 10,
+    width: '50%',
+  },
+  inputPrefix: {
+    fontSize: 16,
+    marginRight: 5,
+    color: '#4e3629', // Warna teks yang lebih gelap
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    color: '#4e3629', // Warna teks yang lebih gelap
+  },
+  kembalian: {
+    fontSize: 18,
     color: '#4e3629', // Warna teks yang lebih gelap
   },
   terimakasih: {
