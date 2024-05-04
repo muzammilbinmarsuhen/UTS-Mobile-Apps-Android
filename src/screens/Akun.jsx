@@ -10,7 +10,7 @@ import {
   Easing,
 } from 'react-native';
 
-const Akun = ({namaPengguna, email, fotoProfil}) => {
+const Akun = ({namaPengguna, nomorHandphone, fotoProfil}) => {
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
@@ -35,14 +35,20 @@ const Akun = ({namaPengguna, email, fotoProfil}) => {
   return (
     <Animated.ScrollView style={[styles.container, {opacity: animatedValue}]}>
       <View style={styles.header}>
-        {fotoProfil ? (
-          <Image source={fotoProfil} style={styles.fotoProfil} />
-        ) : (
-          <View style={styles.placeholder} />
-        )}
-        <View style={styles.userInfo}>
-          <Text style={styles.username}>{namaPengguna}</Text>
-          <Text style={styles.email}>{email}</Text>
+        <View style={styles.profileInfo}>
+          <View style={styles.fotoContainer}>
+            {fotoProfil ? (
+              <Image source={fotoProfil} style={styles.fotoProfil} />
+            ) : (
+              <View style={styles.placeholder} />
+            )}
+          </View>
+          <View style={styles.userInfo}>
+            <Text style={styles.infoLabel}>Nama Pengguna:</Text>
+            <Text style={styles.infoText}>{namaPengguna}</Text>
+            <Text style={styles.infoLabel}>Nomor Handphone:</Text>
+            <Text style={styles.infoText}>{nomorHandphone}</Text>
+          </View>
         </View>
       </View>
       <View style={styles.menu}>
@@ -84,7 +90,8 @@ const Akun = ({namaPengguna, email, fotoProfil}) => {
         </TouchableOpacity>
       </View>
       {/* Tambahkan tombol aksi di sini */}
-      <TouchableOpacity style={styles.actionButton}>
+      <TouchableOpacity
+        style={[styles.actionButton, {backgroundColor: '##4CAF50'}]}>
         <Text style={styles.actionButtonText}>Keluar</Text>
       </TouchableOpacity>
     </Animated.ScrollView>
@@ -97,17 +104,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#eddcd2', // Warna latar belakang coklat susu
   },
   header: {
-    flexDirection: 'row',
     alignItems: 'center',
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
+  profileInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  fotoContainer: {
+    marginRight: 20,
+  },
   fotoProfil: {
     width: 60,
     height: 60,
     borderRadius: 30,
-    marginRight: 20,
     borderWidth: 2,
     borderColor: '#1877f2', // Warna border gambar
   },
@@ -115,21 +127,20 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    marginRight: 20,
     backgroundColor: '#ccc',
   },
   userInfo: {
     flex: 1,
   },
-  username: {
-    fontSize: 18,
+  infoLabel: {
+    fontSize: 12,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: '#333', // Warna nama pengguna
+    color: '#333',
   },
-  email: {
+  infoText: {
     fontSize: 14,
-    color: '#888',
+    color: '#333',
   },
   menu: {
     paddingVertical: 20,
@@ -146,15 +157,17 @@ const styles = StyleSheet.create({
   },
   menuTextPressed: {
     color: '#1877f2',
+    fontWeight: 'bold', // Tambahkan ketebalan teks saat ditekan
   },
   actionButton: {
-    backgroundColor: '#1877f2',
+    backgroundColor: '#00FF00',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 15,
     marginHorizontal: 20,
     borderRadius: 8,
     marginTop: 20,
+    elevation: 3, // Tambahkan efek elevasi
   },
   actionButtonText: {
     color: '#fff',
