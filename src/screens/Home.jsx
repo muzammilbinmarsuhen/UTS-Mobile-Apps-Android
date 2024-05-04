@@ -3,71 +3,69 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
   TouchableOpacity,
-  ImageBackground,
   Animated,
-  Image, // Import Image component
+  Image,
 } from 'react-native';
 
 const Data = [
   {
     id: 1,
-    label: 'copi susu',
+    label: 'Copi Susu',
     price: 'Rp. 3000',
     image: require('../assets/copi_susu.jpeg'),
   },
   {
     id: 2,
-    label: 'copi manis',
+    label: 'Copi Manis',
     price: 'Rp. 4000',
     image: require('../assets/copi_manis.jpeg'),
   },
   {
     id: 3,
-    label: 'jas jus',
+    label: 'Jas Jus',
     price: 'Rp. 1000',
     image: require('../assets/jas_jus.jpeg'),
   },
   {
     id: 4,
-    label: 'teh manis',
+    label: 'Teh Manis',
     price: 'Rp. 3000',
     image: require('../assets/teh_manis.jpeg'),
   },
   {
     id: 5,
-    label: 'es jeruk',
+    label: 'Es Jeruk',
     price: 'Rp. 5000',
     image: require('../assets/es_jeruk.jpeg'),
   },
   {
     id: 6,
-    label: 'joshua',
+    label: 'Joshua',
     price: 'Rp. 7000',
     image: require('../assets/joshua.jpeg'),
   },
   {
     id: 7,
-    label: 'drink',
+    label: 'Drink',
     price: 'Rp. 6000',
     image: require('../assets/drink.jpeg'),
   },
   {
     id: 8,
-    label: 'boba',
+    label: 'Boba',
     price: 'Rp. 8000',
     image: require('../assets/boba.jpeg'),
   },
   {
     id: 9,
-    label: 'capucinho',
+    label: 'Capucinho',
     price: 'Rp. 7000',
     image: require('../assets/capucinho.jpeg'),
   },
   {
     id: 10,
-    label: 'copi',
+    label: 'Copi',
     price: 'Rp. 2000',
     image: require('../assets/copi.jpeg'),
   },
@@ -75,21 +73,35 @@ const Data = [
 
 const Home = ({navigation}) => {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-
   const checkoutScale = new Animated.Value(1);
+  const checkoutTranslateY = new Animated.Value(0);
 
   const checkoutAnimation = () => {
     setIsCheckingOut(true);
-    Animated.timing(checkoutScale, {
-      toValue: 0.9,
-      duration: 100,
-      useNativeDriver: true,
-    }).start(() => {
+    Animated.parallel([
       Animated.timing(checkoutScale, {
-        toValue: 1,
+        toValue: 0.9,
         duration: 100,
         useNativeDriver: true,
-      }).start(() => {
+      }),
+      Animated.timing(checkoutTranslateY, {
+        toValue: -10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      Animated.parallel([
+        Animated.timing(checkoutScale, {
+          toValue: 1,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(checkoutTranslateY, {
+          toValue: 0,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
         navigation.navigate('Pesan');
         setIsCheckingOut(false);
       });
@@ -104,23 +116,29 @@ const Home = ({navigation}) => {
             key={item.id}
             style={[
               styles.menuItem,
-              {backgroundColor: '#3E2723'},
               isCheckingOut && {transform: [{scale: checkoutScale}]},
             ]}
             onPress={() => {
               navigation.navigate('Detail', {item});
             }}>
+            <Image source={item.image} style={styles.menuImage} />
             <Text style={styles.menuText}>{item.label}</Text>
             <Text style={styles.menuPrice}>{item.price}</Text>
           </TouchableOpacity>
         ))}
       </View>
-      <TouchableOpacity
-        onPress={checkoutAnimation}
-        style={styles.btn}
-        disabled={isCheckingOut}>
-        <Text style={styles.txt}>Pesan Sekarang</Text>
-      </TouchableOpacity>
+      <Animated.View
+        style={[
+          styles.btnContainer,
+          {transform: [{translateY: checkoutTranslateY}]},
+        ]}>
+        <TouchableOpacity
+          onPress={checkoutAnimation}
+          style={styles.btn}
+          disabled={isCheckingOut}>
+          <Text style={styles.txt}>Pesan Sekarang</Text>
+        </TouchableOpacity>
+      </Animated.View>
     </View>
   );
 };
@@ -128,17 +146,12 @@ const Home = ({navigation}) => {
 export default Home;
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
-    backgroundColor: '#eddcd2',
-  },
   container: {
     flex: 1,
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#eddcd2',
   },
   menuContainer: {
     flexDirection: 'row',
@@ -154,6 +167,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#3E2723',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -177,7 +191,14 @@ const styles = StyleSheet.create({
   menuPrice: {
     fontSize: 14,
     color: '#fff',
-    marginTop: 5, // Adding margin-top for spacing
+    marginTop: 5,
+  },
+  btnContainer: {
+    position: 'absolute',
+    bottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
   },
   btn: {
     paddingVertical: 15,
@@ -192,7 +213,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
     elevation: 6,
-    marginBottom: 20,
   },
   txt: {
     fontSize: 20,
