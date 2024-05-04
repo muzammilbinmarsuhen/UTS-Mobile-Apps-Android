@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,117 +10,137 @@ import {
   Easing,
 } from 'react-native';
 
-const Akun = ({namaPengguna, email, fotoProfil}) => {
+const Akun = ({ namaPengguna, email, fotoProfil }) => {
+  const [isButtonPressed, setIsButtonPressed] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
-  const startAnimation = () => {
+  useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 1,
-      duration: 500,
+      duration: 1000,
       easing: Easing.ease,
       useNativeDriver: true,
     }).start();
+  }, [animatedValue]);
+
+  const startAnimation = () => {
+    setIsButtonPressed(true);
   };
 
-  const translateX = animatedValue.interpolate({
+  const translateY = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [200, 0],
+    outputRange: [-50, 0],
   });
 
   return (
-    <ScrollView style={styles.container}>
+    <Animated.ScrollView style={[styles.container, { opacity: animatedValue }]}>
       <View style={styles.header}>
-        {fotoProfil && <Image source={fotoProfil} style={styles.fotoProfil} />}
-        <Text style={styles.username}>{namaPengguna}</Text>
+        {fotoProfil ? (
+          <Image source={fotoProfil} style={styles.fotoProfil} />
+        ) : (
+          <View style={styles.placeholder}></View>
+        )}
+        <View style={styles.userInfo}>
+          <Text style={styles.username}>{namaPengguna}</Text>
+          <Text style={styles.email}>{email}</Text>
+        </View>
       </View>
-      <View style={styles.info}>
-        <Text style={styles.label}>Email:</Text>
-        <Text style={styles.textInfo}>{email}</Text>
+      <View style={styles.menu}>
+        <TouchableOpacity onPress={startAnimation} style={styles.menuItem}>
+          <Text style={[styles.menuText, isButtonPressed && styles.menuTextPressed]}>
+            Pesanan Saya
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={startAnimation} style={styles.menuItem}>
+          <Text style={[styles.menuText, isButtonPressed && styles.menuTextPressed]}>
+            Favorit Saya
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={startAnimation} style={styles.menuItem}>
+          <Text style={[styles.menuText, isButtonPressed && styles.menuTextPressed]}>
+            Alamat Pengiriman
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={startAnimation} style={styles.menuItem}>
+          <Text style={[styles.menuText, isButtonPressed && styles.menuTextPressed]}>
+            Pengaturan Akun
+          </Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={startAnimation} style={styles.table}>
-        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
-          <Text style={styles.tableText}>Alamat</Text>
-        </Animated.View>
+      {/* Tambahkan tombol aksi di sini */}
+      <TouchableOpacity style={styles.actionButton}>
+        <Text style={styles.actionButtonText}>Keluar</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={startAnimation} style={styles.table}>
-        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
-          <Text style={styles.tableText}>Pembayaran</Text>
-        </Animated.View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={startAnimation} style={styles.table}>
-        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
-          <Text style={styles.tableText}>Pusat Bantuan</Text>
-        </Animated.View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={startAnimation} style={styles.table}>
-        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
-          <Text style={styles.tableText}>Pengaturan</Text>
-        </Animated.View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={startAnimation} style={styles.table}>
-        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
-          <Text style={styles.tableText}>Panduan</Text>
-        </Animated.View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={startAnimation} style={styles.table}>
-        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
-          <Text style={styles.tableText}>Kebijakan Privasi</Text>
-        </Animated.View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={startAnimation} style={styles.table}>
-        <Animated.View style={[styles.tableItem, {transform: [{translateX}]}]}>
-          <Text style={styles.tableText}>Media Sosial</Text>
-        </Animated.View>
-      </TouchableOpacity>
-    </ScrollView>
+    </Animated.ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    paddingVertical: 20,
-    paddingHorizontal: 15,
+    flex: 1,
+    backgroundColor: '#eddcd2', // Warna latar belakang coklat susu
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
   fotoProfil: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     marginRight: 20,
   },
+  placeholder: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: 20,
+    backgroundColor: '#ccc',
+  },
+  userInfo: {
+    flex: 1,
+  },
   username: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1877f2',
-  },
-  info: {
-    marginBottom: 15,
-  },
-  label: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
   },
-  textInfo: {
-    fontSize: 16,
+  email: {
+    fontSize: 14,
+    color: '#888',
   },
-  table: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+  menu: {
+    paddingVertical: 20,
   },
-  tableItem: {
+  menuItem: {
+    paddingHorizontal: 20,
     paddingVertical: 15,
-    paddingLeft: 10,
-    backgroundColor: '#f7f7f7',
+    borderBottomWidth: 1,
+    borderBottomColor: '#fff', // Warna coklat susu
   },
-  tableText: {
-    fontSize: 20,
+  menuText: {
+    fontSize: 16,
     color: '#333',
+  },
+  menuTextPressed: {
+    color: '#1877f2',
+  },
+  actionButton: {
+    backgroundColor: '#1877f2',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 15,
+    marginHorizontal: 20,
+    borderRadius: 8,
+    marginTop: 20,
+  },
+  actionButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
