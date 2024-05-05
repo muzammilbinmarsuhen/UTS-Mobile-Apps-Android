@@ -95,6 +95,78 @@ const Data = [
     price: 'Rp. 2000',
     image: require('../assets/mangga.jpeg'),
   },
+  {
+    id: 15,
+    label: 'kentang',
+    price: 'Rp. 8000',
+    image: require('../assets/kentang.jpeg'),
+  },
+  {
+    id: 16,
+    label: 'kepiting',
+    price: 'Rp. 7000',
+    image: require('../assets/kepiting.jpeg'),
+  },
+  {
+    id: 17,
+    label: 'korea',
+    price: 'Rp. 6000',
+    image: require('../assets/korea.jpeg'),
+  },
+  {
+    id: 18,
+    label: 'lumpia',
+    price: 'Rp. 7000',
+    image: require('../assets/lumpia.jpeg'),
+  },
+  {
+    id: 19,
+    label: 'nasgor',
+    price: 'Rp. 12000',
+    image: require('../assets/nasgor.jpeg'),
+  },
+  {
+    id: 20,
+    label: 'rotbar',
+    price: 'Rp. 7000',
+    image: require('../assets/rotbar.jpeg'),
+  },
+  {
+    id: 21,
+    label: 'sapi',
+    price: 'Rp. 12000',
+    image: require('../assets/sapi.jpeg'),
+  },
+  {
+    id: 22,
+    label: 'seblak',
+    price: 'Rp. 7000',
+    image: require('../assets/seblak.jpeg'),
+  },
+  {
+    id: 23,
+    label: 'siomay',
+    price: 'Rp. 12000',
+    image: require('../assets/siomay.jpeg'),
+  },
+  {
+    id: 24,
+    label: 'sosbar',
+    price: 'Rp. 7000',
+    image: require('../assets/sosbar.jpeg'),
+  },
+  {
+    id: 25,
+    label: 'soto',
+    price: 'Rp. 12000',
+    image: require('../assets/soto.jpeg'),
+  },
+  {
+    id: 26,
+    label: 'telurmata',
+    price: 'Rp. 7000',
+    image: require('../assets/telurmata.jpeg'),
+  },
 ];
 
 const Home = ({navigation}) => {
